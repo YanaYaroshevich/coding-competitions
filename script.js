@@ -1,8 +1,9 @@
 const fs = require('fs');
 
 // const contents = fs.readFileSync('b_should_be_easy.in', 'utf8');
-const contents = fs.readFileSync('c_no_hurry.in', 'utf8');
-// const contents = fs.readFileSync('d_metropolis.in', 'utf8');
+// const contents = fs.readFileSync('a_example.in', 'utf8');
+// const contents = fs.readFileSync('c_no_hurry.in', 'utf8');
+const contents = fs.readFileSync('d_metropolis.in', 'utf8');
 // const contents = fs.readFileSync('e_high_bonus.in', 'utf8');
 
 const lines = contents.split('\n');
@@ -40,15 +41,19 @@ for (let i = 0; i < F; i++) {
 	answers.push([]);
 }
 
-do {
+for (let t = 0; t < T; t++) {
+	const carsToCheck = cars.filter((car) => {
+		return car.tCur === t;
+	});
+
 	let max = {
 		speed: 0,
 		cost: 0,
 		time: Infinity
 	};
 
-	rides.forEach((ride, ind) => {
-		cars.forEach((car) => {
+	carsToCheck.forEach((car) => {
+		rides.forEach((ride, ind) => {
 			const res = cost(car, ride);
 			if (res.speed > max.speed || (res.speed === max.speed && res.time < max.time)) {
 				max = res;
@@ -57,7 +62,7 @@ do {
 	});
 
 	if (max.cost === 0) {
-		break;
+		continue;
 	}
 
 	max.car.tCur += max.time;
@@ -68,10 +73,12 @@ do {
 
 	answers[max.car.ind].push(max.ride.ind);
 	rides.splice(rides.indexOf(max.ride), 1);
-	console.log(rides.length);
-} while (rides.length);
 
-fs.writeFileSync('c_no_hurry.out', answers.map((ans) => {
+	console.log(rides.length)
+	t--;
+}
+
+fs.writeFileSync('d_metropolis.out', answers.map((ans) => {
 	return `${ans.length} ${ans.join(' ')}`;
 }).join('\n'), 'utf8');
 
