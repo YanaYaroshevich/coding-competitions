@@ -1,8 +1,8 @@
 const fs = require('fs');
 
 // const contents = fs.readFileSync('b_should_be_easy.in', 'utf8');
-// const contents = fs.readFileSync('c_no_hurry.in', 'utf8');
-const contents = fs.readFileSync('d_metropolis.in', 'utf8');
+const contents = fs.readFileSync('c_no_hurry.in', 'utf8');
+// const contents = fs.readFileSync('d_metropolis.in', 'utf8');
 // const contents = fs.readFileSync('e_high_bonus.in', 'utf8');
 
 const lines = contents.split('\n');
@@ -43,13 +43,14 @@ for (let i = 0; i < F; i++) {
 do {
 	let max = {
 		speed: 0,
-		cost: 0
+		cost: 0,
+		time: Infinity
 	};
 
 	rides.forEach((ride, ind) => {
 		cars.forEach((car) => {
 			const res = cost(car, ride);
-			if (res.speed > max.speed) {
+			if (res.speed > max.speed || (res.speed === max.speed && res.time < max.time)) {
 				max = res;
 			}
 		});
