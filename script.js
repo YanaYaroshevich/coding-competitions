@@ -1,8 +1,8 @@
 const fs = require('fs');
 
 // const contents = fs.readFileSync('b_should_be_easy.in', 'utf8');
-const contents = fs.readFileSync('c_no_hurry.in', 'utf8');
-// const contents = fs.readFileSync('d_metropolis.in', 'utf8');
+// const contents = fs.readFileSync('c_no_hurry.in', 'utf8');
+const contents = fs.readFileSync('d_metropolis.in', 'utf8');
 // const contents = fs.readFileSync('e_high_bonus.in', 'utf8');
 
 const lines = contents.split('\n');
