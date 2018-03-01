@@ -1,1 +1,1 @@
-console.log('lal')
+console.log('lal');
