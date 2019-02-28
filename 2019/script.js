@@ -36,7 +36,8 @@ for (let i = 0; i < N; i++) {
 		photos.push({
 			id: `${firstP.id} ${i}`,
 			orient: 'V',
-			tags: Object.keys(tagMap).sort()
+			tags: Object.keys(tagMap).sort(),
+			ind: photos.length
 		});
 
 		firstP = null;
@@ -44,7 +45,8 @@ for (let i = 0; i < N; i++) {
 		photos.push({
 			id: i,
 			orient: params[0],
-			tags: params.slice(2).sort()
+			tags: params.slice(2).sort(),
+			ind: photos.length
 		});
 	}
 }
@@ -72,6 +74,17 @@ const mapQ = {};
 let marked = 0;
 let component = -1;
 
+const interestTable = [];
+
+for (let i = 0; i < photos.length; i++) {
+	console.log(i)
+	interestTable.push([]);
+
+	for (let j = 0; j < i; j++) {
+		interestTable[i][j] = interest(photos[i], photos[j]);
+	}
+}
+
 
 const components = [];
 
@@ -98,7 +111,8 @@ do {
 
 		for (let i = 0; i < photos.length; i++) {
 			const p = photos[i];
-			if (!p.marked && interest(photo, p) && !mapQ[p.id]) {
+			const m = Math.min(p.ind, photo.ind), M = Math.max(p.ind, photo.ind);
+			if (!p.marked && interestTable[M][m] && !mapQ[p.id]) {
 				queue.push(p);
 				photos.splice(i, 1);
 				i--;
@@ -128,7 +142,8 @@ components.forEach((comp, ind) => {
 				matr[i][j] = -1;
 				continue;
 			}
-			matr[i][j] = interest(comp[i], comp[j]);
+			const m = Math.min(comp[i].ind, comp[j].ind), M = Math.max(comp[i].ind, comp[j].ind);
+			matr[i][j] = interestTable[M][m];
 		}
 	}
 	console.log(matr)
