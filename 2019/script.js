@@ -68,8 +68,8 @@ function interest(a, b) {
 	return Math.min(inters, a.tags.length - inters, b.tags.length - inters);
 }
 
-const queue = [];
-const mapQ = {};
+let queue = [];
+let mapQ = {};
 
 let marked = 0;
 let component = -1;
@@ -109,6 +109,10 @@ do {
 			components[component].push(photo);
 			if (components[component].length === 100) {
 				component++;
+				photos.push(...queue);
+				queue = [];
+				mapQ = {};
+				break;
 			}
 		} else {
 			components[component] = [photo];
