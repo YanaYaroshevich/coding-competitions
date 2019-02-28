@@ -67,19 +67,28 @@ function interest(a, b) {
 }
 
 const queue = [];
+const mapQ = {};
+
 let marked = 0;
 let component = -1;
+
 
 const components = [];
 
 do {
-	queue.unshift(photos.find((p) => !p.marked));
+	const tpmp = photos.findIndex((p) => !p.marked);
+	queue.unshift(photos[tpmp]);
+
+	photos.splice(tpmp, 1);
+	mapQ[photos[tpmp].id] = true;
 	component++;
 
 	while (queue.length) {
 		let photo = queue.pop();
+		mapQ[photo.id] = false;
 		photo.marked = true;
 		marked++;
+		console.log(marked)
 
 		if (components[component]) {
 			components[component].push(photo);
@@ -87,11 +96,15 @@ do {
 			components[component] = [photo];
 		}
 
-		photos.forEach((p) => {
-			if (!p.marked && interest(photo, p)) {
+		for (let i = 0; i < photos.length; i++) {
+			const p = photos[i];
+			if (!p.marked && interest(photo, p) && !mapQ[p.id]) {
 				queue.push(p);
+				photos.splice(i, 1);
+				i--;
+				mapQ[p.id] = true;
 			}
-		});
+		}
 	}
 } while (marked < photos.length);
 
