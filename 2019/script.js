@@ -74,16 +74,18 @@ const mapQ = {};
 let marked = 0;
 let component = -1;
 
-const interestTable = [];
+/* const interestTable = {};
 
 for (let i = 0; i < photos.length; i++) {
 	console.log(i)
-	interestTable.push([]);
-
 	for (let j = 0; j < i; j++) {
-		interestTable[i][j] = interest(photos[i], photos[j]);
+		const int = interest(photos[i], photos[j]);
+
+		if (int) {
+			interestTable[`${photos[i].id}-${photos[j].id}`] = int;
+		}
 	}
-}
+}*/
 
 
 const components = [];
@@ -105,14 +107,17 @@ do {
 
 		if (components[component]) {
 			components[component].push(photo);
+			if (components[component].length === 100) {
+				component++;
+			}
 		} else {
 			components[component] = [photo];
 		}
 
 		for (let i = 0; i < photos.length; i++) {
 			const p = photos[i];
-			const m = Math.min(p.ind, photo.ind), M = Math.max(p.ind, photo.ind);
-			if (!p.marked && interestTable[M][m] && !mapQ[p.id]) {
+
+			if (!p.marked && !mapQ[p.id] && queue.length < 100 && (interest(photos[i], p))) {
 				queue.push(p);
 				photos.splice(i, 1);
 				i--;
