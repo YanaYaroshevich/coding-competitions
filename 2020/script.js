@@ -19,6 +19,7 @@ files.forEach((file, index) => {
     lines.shift();
 
     const libraries = [];
+    const booksFr = (new Array(B)).fill(0);
 
     for (let i = 0; i < L; i++) {
         const [N, T, M] = lines[0].split(' ').map((el) => +el);
@@ -27,10 +28,14 @@ files.forEach((file, index) => {
             T,
             M,
             ind: i,
-            books: lines[1].split(' ').map((el) => +el).sort((a, b) => awards[b] - awards[a])
+            books: lines[1].split(' ').map((el) => {booksFr[el]++; return +el;})
         });
         lines.shift();
         lines.shift();
+    }
+
+    for (let i = 0; i < L; i++) {
+        libraries[i].books.sort((a, b) => (awards[b] - awards[a]) || (booksFr[a] - booksFr[b]));
     }
 
     let output = ``;
@@ -48,7 +53,7 @@ files.forEach((file, index) => {
                 libAward += awards[lib.books[i]];
             }
 
-            libMarks[lib.ind] = {award: libAward / (lib.T * lib.T * lib.T), books: lib.books.slice(0, min)};
+            libMarks[lib.ind] = {award: libAward / (lib.T), books: lib.books.slice(0, min)};
         });
 
         let max = 0;
