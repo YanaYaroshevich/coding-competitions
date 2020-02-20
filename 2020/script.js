@@ -34,14 +34,13 @@ files.forEach((file, index) => {
         lines.shift();
     }
 
-    for (let i = 0; i < L; i++) {
-        libraries[i].books.sort((a, b) => (awards[b] - awards[a]) || (booksFr[a] - booksFr[b]));
-    }
-
     let output = ``;
     let count = 0;
 
     do {
+        for (let i = 0; i < libraries.length; i++) {
+            libraries[i].books.sort((a, b) => (awards[b]-awards[a]) || (booksFr[a] - booksFr[b]));
+        }
         const libMarks = [];
 
         libraries.forEach((lib) => {
@@ -77,6 +76,9 @@ ${libMarks[maxInd].books.join(' ')}`;
 
         const coolLibInd = libraries.findIndex((lib) => lib.ind === maxInd);
         D -= libraries[coolLibInd].T;
+        for (let i = libMarks[maxInd].books.length; i < libraries[coolLibInd].books.length; i++) {
+            booksFr[libraries[coolLibInd].books[i]]--;
+        }
         libraries.splice(coolLibInd, 1);
 
         const libMarksMap = libMarks[maxInd].books.reduce((prev, cur) => {
