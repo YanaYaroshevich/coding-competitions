@@ -17,11 +17,12 @@ for (let i = 0; i < contents.length; i++) {
         count++;
     } else {
         count = 0;
+        i -= Object.keys(mapCount).length;
         mapCount = {};
     }
 
     if (count === 4) {
-        console.log(i);
+        console.log(i + 1);
         break;
     }
 }
