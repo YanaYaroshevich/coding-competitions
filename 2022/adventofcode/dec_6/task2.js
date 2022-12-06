@@ -16,8 +16,8 @@ for (let i = 0; i < contents.length; i++) {
         mapCount[lett] = 1;
         count++;
     } else {
+        i -= count;
         count = 0;
-        i -= Object.keys(mapCount).length;
         mapCount = {};
 
     }
