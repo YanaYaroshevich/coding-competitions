@@ -11,8 +11,6 @@ const lines = contents.split('\n');
 const sensors = [];
 const beacons = [];
 
-
-
 let minx = Infinity;
 let miny = Infinity;
 let maxx = -Infinity;
@@ -45,29 +43,21 @@ for (let i = 0; i < lines.length; i++) {
     if (y1 < miny) {
         miny = y1;
     }
-    sensors.push([x, y]);
-    beacons.push([x1, y1]);
+
+    sensors.push({x, y});
+    beacons.push({x: x1, y: y1});
 }
 
-let minxAbs = Math.abs(minx - 150);
-let minyAbs = Math.abs(miny - 150);
-
-const maxxAbs = maxx + minxAbs;
-const maxyAbs = maxy + minyAbs;
-
-const map = new Array(maxxAbs + 1);
-
+const map = {};
 
 const logMatr = () => {
     let arr = [];
     let output = '';
-    for (let j = 0; j <= maxyAbs; j++) {
-        const outputi = Math.abs(j - minyAbs);
-        output += `${outputi < 10 ? '00' : outputi < 100 ? '0' : ''}${outputi}`;
-        for (let i = 0; i <= maxxAbs; i++) {
+    for (let j = miny; j <= maxy; j++) {
+        output += `${j < 10 ? '00' : j < 100 ? '0' : ''}${j}`;
+        for (let i = minx; i <= maxx; i++) {
             if(j === 0) {
-                const outputi = Math.abs(i - minxAbs);
-                arr.push(`${outputi < 10 ? '00' : outputi < 100 ? '0' : ''}${outputi}`.split(''));
+                arr.push(`${i < 10 ? '00' : i < 100 ? '0' : ''}${i}`.split(''));
             }
             if (!map[i]) {
                 output += '.';
@@ -90,54 +80,46 @@ const logMatr = () => {
 }
 
 for (let i = 0; i < sensors.length; i++) {
-    if (!map[sensors[i][0] + minxAbs]) {
-        map[sensors[i][0] + minxAbs] = new Array(maxyAbs + 1);
+    if (!map[sensors[i].x]) {
+        map[sensors[i].x] = {};
     }
-    map[sensors[i][0] + minxAbs][sensors[i][1] + minyAbs] = 'S';
+    map[sensors[i].x][sensors[i].y] = 'S';
 }
 
 for (let i = 0; i < beacons.length; i++) {
-    if (!map[beacons[i][0] + minxAbs]) {
-        map[beacons[i][0] + minxAbs] = new Array(maxyAbs + 1);
+    if (!map[beacons[i].x]) {
+        map[beacons[i].x] = {};
     }
-    map[beacons[i][0] + minxAbs][beacons[i][1] + minyAbs] = 'B';
+    map[beacons[i].x][beacons[i].y] = 'B';
 }
 
 // logMatr();
 
+let y = 2000000;
+let count = 0;
+
 for (let k = 0; k < sensors.length; k++) {
+    console.log('K', k);
     const s = sensors[k];
     const b = beacons[k];
 
-    const dist = Math.abs(s[0] - b[0]) + Math.abs(s[1] - b[1]);
+    const dist = Math.abs(s.x - b.x) + Math.abs(s.y - b.y);
 
-    for (let i = -dist; i <= dist; i++) {
-        for (let j = -dist; j <= dist; j++) {
-            if (i + j > dist || i + j < -dist || i - j > dist || i - j < -dist) {
-                continue;
-            }
-            if (!map[s[0] + minxAbs + i]) {
-                map[s[0] + minxAbs + i] = new Array(maxyAbs + 1);
-            }
-            if (map[s[0] + minxAbs + i][s[1] + minyAbs + j]) {
-                continue;
-            }
-            map[s[0] + minxAbs + i][s[1] + minyAbs + j] = '#';
-        }
-    }
-    // logMatr();
-}
-
-let count = 0;
-for (let j = 0; j <= maxyAbs; j++) {
-    for (let i = 0; i <= maxxAbs; i++) {
-        if (!map[i]) {
+    for (let i = s.x - dist; i <= s.x + dist; i++) {
+        if (Math.abs(s.y - y) + Math.abs(s.x - i) > dist) {
             continue;
         }
-        if (j - minyAbs === 10 && map[i][j] === '#') {
-            count++;
+
+        if (!map[i]) {
+            map[i] = {};
         }
+        if (map[i][y]) {
+            continue;
+        }
+        map[i][y] = '#';
+        count++;
     }
+    // logMatr();
 }
 
 console.log(count);
