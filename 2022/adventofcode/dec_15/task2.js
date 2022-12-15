@@ -113,6 +113,7 @@ for (let i = 0; i < 4000000; i++) {
         for (let k = 0; k < options.length; k++) {
             const opt = options[k];
             if (Math.abs(opt.x - i) + Math.abs(opt.y - j) <= opt.dist) {
+                j = opt.dist - Math.abs(opt.x - i) + opt.y;
                 flag = false;
                 break;
             }
