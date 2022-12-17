@@ -55,7 +55,9 @@ for (let key in map) {
     }
 }
 
-/* for (let key in map) {
+console.log(map);
+
+for (let key in map) {
     if (key === 'AA') {
         for (let key1 in map) {
             delete map[key1].paths[key];
@@ -72,7 +74,7 @@ for (let key in map) {
     for (let key1 in map) {
         delete map[key1].paths[key];
     }
-} */
+}
 
 console.log(map);
 
@@ -82,8 +84,8 @@ const minutes = 26;
 
 const memory = {};
 
-const getRate = (curPoint, curRate, minutesLeft, visitedPoints, isElef) => {
-    if (Object.keys(visitedPoints).length === lines.length) {
+const getRateOld = (curPoint, curRate, minutesLeft, visitedPoints) => {
+    if (Object.keys(visitedPoints).length === Object.keys(map).length) {
         return curRate;
     }
 
@@ -91,47 +93,62 @@ const getRate = (curPoint, curRate, minutesLeft, visitedPoints, isElef) => {
         return curRate;
     }
 
-    const memoryKey = `${curRate}${+isElef}${Object.keys(visitedPoints).join('')}`;
+    const memoryKey = `${curPoint.name}-${curRate}-${minutesLeft}-${Object.keys(visitedPoints).join(',')}`;
 
-    if (memory[curPoint.name] && memory[curPoint.name][minutesLeft] && (memory[curPoint.name][minutesLeft][memoryKey] || memory[curPoint.name][minutesLeft][memoryKey] === 0)) {
-        return memory[curPoint.name][minutesLeft][memoryKey];
+    if (memory[memoryKey]) {
+        return memory[memoryKey];
     }
 
     let max = 0;
     for (let path in curPoint.paths) {
-        /* if (map[path].rate === 0 || visitedPoints[path]) {
-            const r = getRate(map[path], curRate,minutesLeft - curPoint.paths[path], {...visitedPoints}, isElef);
-            max = isElef ? Math.max(...[r, max]) : Math.max(...[r, max, curRate + getRate(start, 0,  minutes, {...visitedPoints}, true)]);
+        if (minutesLeft - 1 - curPoint.paths[path] < 0) {
             continue;
-        } */
+        }
+
+        if (visitedPoints[path]) {
+            const r = getRateOld(map[path], curRate, minutesLeft - curPoint.paths[path], { ...visitedPoints });
+            max = Math.max(...[r, max]);
+            continue;
+        }
+
+        const r1 = getRateOld(map[path], (map[path].rate * (minutesLeft - 1 - curPoint.paths[path])) + curRate,minutesLeft - 1 - curPoint.paths[path], {...visitedPoints, [path]: true});
+        const r2 = getRateOld(map[path], curRate, minutesLeft - curPoint.paths[path], { ...visitedPoints });
+        max = Math.max(...[r1, r2, max]);
+    }
+
+    memory[memoryKey] = max;
+    return memory[memoryKey];
+};
+
+const getRate = (curPoint, curRate, minutesLeft, visitedPoints, isElef) => {
+    if (Object.keys(visitedPoints).length === Object.keys(map).length) {
+        return curRate;
+    }
+
+    if (minutesLeft <= 1) {
+        return curRate;
+    }
+
+    let max = 0;
+    for (let path in curPoint.paths) {
         if (visitedPoints[path]) {
             continue;
         }
-        if (minutesLeft - 1 - curPoint.paths[path] < 0 ) {
+        if (minutesLeft - 1 - curPoint.paths[path] < 0) {
             continue;
         }
         const r1 = getRate(map[path], (map[path].rate * (minutesLeft - 1 - curPoint.paths[path])) + curRate,minutesLeft - 1 - curPoint.paths[path], {...visitedPoints, [path]: true}, isElef);
-        // const r2 = getRate(map[path],  curRate,minutesLeft - curPoint.paths[path], { ...visitedPoints }, isElef);
         max = isElef ?
             Math.max(...[r1, max]) :
             Math.max(...[
                 r1, max,
-                (map[path].rate * (minutesLeft - 1 - curPoint.paths[path])) + curRate + getRate(start, 0, 26, {...visitedPoints, [path]: true}, true),
+                (map[path].rate * (minutesLeft - 1 - curPoint.paths[path])) + curRate + getRateOld(start, 0, 26, {...visitedPoints, [path]: true}, true),
             ]);
     }
 
-    if (!memory[curPoint.name]) {
-        memory[curPoint.name] = {};
-    }
-    if (!memory[curPoint.name][minutesLeft]) {
-        memory[curPoint.name][minutesLeft] = {};
-    }
-    memory[curPoint.name][minutesLeft][memoryKey] = max;
-    //if (max > 0) {
-      //  console.log(memoryKey, max);
-    //}
+    // console.log(max);
 
-    return memory[curPoint.name][minutesLeft][memoryKey];
+    return max;
 };
 
 console.log(getRate(start, 0, minutes, {AA: true}, false));
