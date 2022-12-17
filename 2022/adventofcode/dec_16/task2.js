@@ -113,7 +113,8 @@ const getRate = (curPoint, curRate, minutesLeft, visitedPoints, isElef) => {
             ]);
     }
 
-    // console.log(max);
+
+    console.log(JSON.stringify(visitedPoints), max);
 
     return max;
 };
