@@ -10,57 +10,45 @@ const lines = contents.split("\n");
 
 console.log("TOTAL ", lines.length);
 
-let touchedIndexes = {};
-const nums = lines.map(Number);
+const numsCopy = lines.map(Number);
+const nums = lines.map((num, index) => ({ val: +num, index }));
 
-for (let i = 0; i < nums.length; i++) {
-  if (touchedIndexes[i]) continue;
-  if (nums[i] === 0) {
-    touchedIndexes[i] = true;
-    console.log(nums.join(" "));
+for (let i = 0; i < numsCopy.length; i++) {
+  if (numsCopy[i] === 0) {
     continue;
   }
-  const num = nums[i];
 
-  const newIndex =
-    (i + num <= 0
-      ? nums.length - 1 + (i + num)
-      : i + num > nums.length - 1
-      ? i + num + 1
-      : i + num) % nums.length;
-  nums.splice(i, 1);
-  nums.splice(newIndex, 0, num);
+  const num = numsCopy[i];
+  const iSwapped = nums.findIndex(({ index }) => index === i);
 
-  console.log(nums.join(" "));
-
-  const newTouchedIndexes = {};
-
-  for (let key in touchedIndexes) {
-    let newKey = key;
-    if (+key < i && newIndex <= +key) {
-      delete touchedIndexes[key];
-      newKey = +key + 1;
-    } else if (+key > i && newIndex >= +key) {
-      delete touchedIndexes[key];
-      newKey = +key - 1;
+  let adding = 0;
+  if (iSwapped + num < 0) {
+    while (adding + (iSwapped + num) < 0) {
+      adding += nums.length - 1;
     }
-    newTouchedIndexes[newKey] = true;
   }
-  newTouchedIndexes[newIndex] = true;
+  if (iSwapped + num > nums.length - 1) {
+    while (adding + (iSwapped + num) > nums.length - 1) {
+      adding -= nums.length - 1;
+    }
+  }
 
-  touchedIndexes = newTouchedIndexes;
+  const newIndex = (adding + iSwapped + num) % nums.length;
 
-  console.log(Object.keys(touchedIndexes).length);
-  i--;
+  const numObj = nums[iSwapped];
+  nums.splice(iSwapped, 1);
+  nums.splice(newIndex, 0, numObj);
+
+  // console.log(nums.map((n) => n.val).join(" "));
 }
 
 console.log(nums.join(" "));
 
-const i = nums.indexOf(0);
+const i = nums.findIndex((v) => v.val === 0);
 
-const num1 = nums[(i + 1000) % nums.length];
-const num2 = nums[(i + 2000) % nums.length];
-const num3 = nums[(i + 3000) % nums.length];
+const num1 = nums[(i + 1000) % nums.length].val;
+const num2 = nums[(i + 2000) % nums.length].val;
+const num3 = nums[(i + 3000) % nums.length].val;
 
 console.log(num1, num2, num3);
 
