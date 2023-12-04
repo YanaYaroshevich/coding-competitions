@@ -42,14 +42,6 @@ const figures = `####
     },
   ));
 
-const outputCave = (cave) => {
-  let output = '';
-  for (let i = 0; i < cave.length; i++) {
-    output += `${cave[i].join('')}\n`;
-  }
-  console.log(output);
-};
-
 // console.log(figures);
 
 const movesCount = 1000000000000;

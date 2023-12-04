@@ -87,7 +87,6 @@ for (let i = 1;; i++) {
         if (sandY >= max) {
             logMatr();
             console.log(i);
-
             return;
         }
 

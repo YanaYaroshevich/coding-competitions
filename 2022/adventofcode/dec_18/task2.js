@@ -23,18 +23,6 @@ lines.forEach((line) => {
   zMin = Math.min(zMin, z);
 });
 
-Object.keys(cubesObj).forEach((cube) => {
-  const { x, y, z } = cubesObj[cube];
-  const neighbors = [
-    `${x - 1},${y},${z}`,
-    `${x + 1},${y},${z}`,
-    `${x},${y - 1},${z}`,
-    `${x},${y + 1},${z}`,
-    `${x},${y},${z - 1}`,
-    `${x},${y},${z + 1}`,
-  ];
-});
-
 const start = { x: xMin - 1, y: yMin, z: zMin };
 console.log(start);
 

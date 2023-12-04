@@ -6,8 +6,6 @@ const lines = contents.split('\n');
 const leftBasicTree = [];
 const rightBasicTree = [];
 
-const count = 0;
-
 const compareTrees = (leftTree, rightTree) => {
   let leftSubTree;
   let leftInd = 0;
@@ -76,7 +74,6 @@ const compareTrees = (leftTree, rightTree) => {
   }
 };
 
-const pairCount = 0;
 const arr = [[[2]], [[6]]];
 const d1 = arr[0];
 const d2 = arr[1];

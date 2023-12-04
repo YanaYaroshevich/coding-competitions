@@ -33,6 +33,7 @@ const findPath = (startPoint, destPoint) => {
       }
     }
   }
+  return 0;
 };
 
 const graph = {};

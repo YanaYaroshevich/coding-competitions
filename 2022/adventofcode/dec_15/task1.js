@@ -45,35 +45,6 @@ for (let i = 0; i < lines.length; i++) {
 
 const map = {};
 
-const logMatr = () => {
-  const arr = [];
-  let output = '';
-  for (let j = miny; j <= maxy; j++) {
-    output += `${j < 10 ? '00' : j < 100 ? '0' : ''}${j}`;
-    for (let i = minx; i <= maxx; i++) {
-      if (j === 0) {
-        arr.push(`${i < 10 ? '00' : i < 100 ? '0' : ''}${i}`.split(''));
-      }
-      if (!map[i]) {
-        output += '.';
-        continue;
-      }
-      output += map[i][j] ?? '.';
-    }
-    output += '\n';
-  }
-  let str = '';
-  for (let j = 0; j < 3; j++) {
-    str += '   ';
-    for (let i = 0; i < arr.length; i++) {
-      str += arr[i][j];
-    }
-    str += '\n';
-  }
-  output = str + output;
-  console.log(output);
-};
-
 for (let i = 0; i < sensors.length; i++) {
   if (!map[sensors[i].x]) {
     map[sensors[i].x] = {};

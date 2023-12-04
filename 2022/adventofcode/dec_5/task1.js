@@ -9,7 +9,7 @@ const stacks = [];
 for (let i = 0; i < lines.length; i++) {
   const newLine = lines[i];
 
-  if (isNaN(newLine)) {
+  if (Number.isNaN(newLine)) {
     for (let k = 0; k < newLine.length; k++) {
       if (newLine[k] === '[') {
         const ind = Math.floor(k / 4);

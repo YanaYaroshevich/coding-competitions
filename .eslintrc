@@ -6,5 +6,18 @@
     "node": true,
     "es6": true
   },
-  "extends": ["airbnb"]
+  "extends": ["airbnb"],
+  "rules": {
+    "no-console": "off",
+    "no-plusplus": "off",
+    "no-continue": "off",
+    "no-return-assign": "off",
+    "no-param-reassign": "off",
+    "no-shadow": "off",
+    "no-loop-func": "off",
+    "no-restricted-syntax": "off",
+    "no-eval": "off",
+    "no-nested-ternary": "off",
+    "max-len": "warn"
+  }
 }
