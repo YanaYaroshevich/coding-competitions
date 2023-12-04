@@ -1,7 +1,7 @@
-const fs = require("fs");
+const fs = require('fs');
 
-const contents = fs.readFileSync("input.txt", "utf8");
-const lines = contents.split("\n");
+const contents = fs.readFileSync('input.txt', 'utf8');
+const lines = contents.split('\n');
 
 const bothCompItems = [];
 let itemsMap = {};
@@ -26,8 +26,8 @@ for (const line of lines) {
   itemsMap = {};
 }
 
-const aCharCode = "a".charCodeAt(0);
-const ACharCode = "A".charCodeAt(0);
+const aCharCode = 'a'.charCodeAt(0);
+const ACharCode = 'A'.charCodeAt(0);
 
 const prioritiesSum = bothCompItems.reduce((acc, it) => {
   const code = it.charCodeAt(0);

@@ -1,8 +1,3 @@
-/*
-*
-
-* * */
-
 const fs = require('fs');
 
 const contents = fs.readFileSync('input.txt', 'utf8');
@@ -17,7 +12,7 @@ for (let i = 0; i < lines.length; i++) {
   if (line.includes('Monkey')) {
     [, curMonkey] = line.replace(/:/g, '').split(' ');
     if (!monkeysState[curMonkey]) {
-      monkeysState[curMonkey] = {itemsWorryLevels: [], test: {}, inspectedItems: 0};
+      monkeysState[curMonkey] = { itemsWorryLevels: [], test: {}, inspectedItems: 0 };
     }
     continue;
   }
@@ -30,15 +25,15 @@ for (let i = 0; i < lines.length; i++) {
   if (line.includes('Operation')) {
     let [, operation] = line.split(':');
     operation = operation.replace(/new = /g, '');
-    monkeysState[curMonkey].operation = (old) => { return eval(operation.replace(/old/g, old)); };
+    monkeysState[curMonkey].operation = (old) => eval(operation.replace(/old/g, old));
   }
 
   if (line.includes('Test')) {
-    let num = line.replace(/Test: divisible by/g, '').trim();
+    const num = line.replace(/Test: divisible by/g, '').trim();
     monkeysState[curMonkey].test.criteria = +num;
-    const monkey1 = lines[i+1].replace(/If true: throw to monkey/g, '').trim();
+    const monkey1 = lines[i + 1].replace(/If true: throw to monkey/g, '').trim();
     monkeysState[curMonkey].test.trueMonkey = monkey1;
-    const monkey2 = lines[i+2].replace(/If false: throw to monkey/g, '').trim();
+    const monkey2 = lines[i + 2].replace(/If false: throw to monkey/g, '').trim();
     monkeysState[curMonkey].test.falseMonkey = monkey2;
     i += 2;
   }
@@ -66,7 +61,7 @@ for (let i = 0; i < 20; i++) {
 }
 
 const arr = Object.values(monkeysState);
-arr.sort(( a, b ) => b.inspectedItems - a.inspectedItems);
+arr.sort((a, b) => b.inspectedItems - a.inspectedItems);
 
 console.log(arr);
 console.log(arr[0].inspectedItems * arr[1].inspectedItems);

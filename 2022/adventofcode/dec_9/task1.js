@@ -1,8 +1,3 @@
-/*
-*
-
-* * */
-
 const fs = require('fs');
 
 const contents = fs.readFileSync('input.txt', 'utf8');
@@ -19,16 +14,14 @@ const fillMap = () => {
   movesMap[tPos.x][tPos.y] = '#';
 };
 
-const allCoordinatesCover = () => {
-  return tPos.x === hPos.x && tPos.y === hPos.y;
-}
+const allCoordinatesCover = () => tPos.x === hPos.x && tPos.y === hPos.y;
 
 const makeTMove = () => {
   if ((hPos.x === tPos.x - 1 && hPos.y === tPos.y)
       || (hPos.x === tPos.x && hPos.y === tPos.y - 1)
       || (hPos.x === tPos.x && hPos.y === tPos.y + 1)
       || (hPos.x === tPos.x + 1 && hPos.y === tPos.y)) {
-      return;
+    return;
   }
 
   if (Math.abs(hPos.x - tPos.x) === 2 && Math.abs(hPos.y - tPos.y) === 2) {
@@ -132,7 +125,6 @@ lines.forEach((line) => {
   }
 });
 
-
 let maxL = 0;
 for (let i = 0; i < movesMap.length; i++) {
   if (movesMap[i]?.length > maxL) {
@@ -143,8 +135,7 @@ for (let i = 0; i < movesMap.length; i++) {
 let count = 0;
 
 for (let i = 0; i < movesMap.length; i++) {
-
-  if(!movesMap[i]) {
+  if (!movesMap[i]) {
     continue;
   }
 

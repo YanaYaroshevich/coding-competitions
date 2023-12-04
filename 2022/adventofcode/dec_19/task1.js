@@ -1,18 +1,14 @@
-/*
-*
+const fs = require('fs');
 
-* * */
-
-const fs = require("fs");
-
-const contents = fs.readFileSync("input.txt", "utf8");
-const lines = contents.split("\n");
+const contents = fs.readFileSync('input.txt', 'utf8');
+const lines = contents.split('\n');
 
 const minutesCount = 24;
 
 let tmp = 0;
 let globalMax = 0;
-let id, rbt1, rbt2, rbt3, rbt3cl, rbt4, rbt4obs;
+let id; let rbt1; let rbt2; let rbt3; let rbt3cl; let rbt4; let
+  rbt4obs;
 
 const getGeodes = (minutesPassed, resorces, robots, robotCounts) => {
   if (minutesPassed === minutesCount - 1) {
@@ -43,11 +39,11 @@ const getGeodes = (minutesPassed, resorces, robots, robotCounts) => {
   }
 
   if (
-    ((2 * robotCounts[3] + (minutesCount - minutesPassed - 1 - n - m)) *
-      (minutesCount - minutesPassed - n - m)) /
-      2 +
-      resorces[3] <=
-    globalMax
+    ((2 * robotCounts[3] + (minutesCount - minutesPassed - 1 - n - m))
+      * (minutesCount - minutesPassed - n - m))
+      / 2
+      + resorces[3]
+    <= globalMax
   ) {
     return 0;
   }
@@ -69,7 +65,7 @@ const getGeodes = (minutesPassed, resorces, robots, robotCounts) => {
         ...[
           max,
           getGeodes(minutesPassed + 1, resourcesCopy, robots, robotCountsCopy),
-        ]
+        ],
       );
       globalMax = Math.max(globalMax, max);
     }
@@ -89,7 +85,7 @@ const getGeodes = (minutesPassed, resorces, robots, robotCounts) => {
     ...[
       max,
       getGeodes(minutesPassed + 1, resourcesCopy, robots, robotCountsCopy),
-    ]
+    ],
   );
   globalMax = Math.max(globalMax, max);
   return max;

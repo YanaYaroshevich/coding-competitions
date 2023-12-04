@@ -1,7 +1,7 @@
-const fs = require("fs");
+const fs = require('fs');
 
-const contents = fs.readFileSync("input.txt", "utf8");
-const lines = contents.split("\n");
+const contents = fs.readFileSync('input.txt', 'utf8');
+const lines = contents.split('\n');
 
 const badges = [];
 let itemsMap = {};
@@ -24,8 +24,8 @@ for (let i = 0; i < lines.length; i += 3) {
 
 console.log(badges);
 
-const aCharCode = "a".charCodeAt(0);
-const ACharCode = "A".charCodeAt(0);
+const aCharCode = 'a'.charCodeAt(0);
+const ACharCode = 'A'.charCodeAt(0);
 
 const prioritiesSum = badges.reduce((acc, it) => {
   const code = it.charCodeAt(0);

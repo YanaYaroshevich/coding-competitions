@@ -1,14 +1,9 @@
-/*
-*
+const fs = require('fs');
 
-* **/
+const contents = fs.readFileSync('input.txt', 'utf8');
+const lines = contents.split('\n');
 
-const fs = require("fs");
-
-const contents = fs.readFileSync("input.txt", "utf8");
-const lines = contents.split("\n");
-
-const treesMatr = lines.map((line) => line.split("").map(Number));
+const treesMatr = lines.map((line) => line.split('').map(Number));
 const visibilities = [];
 
 const checkNeighbours = (i, j) => {
@@ -73,10 +68,10 @@ for (let i = 0; i < treesMatr.length; i++) {
 
   for (let j = 0; j < treesMatr[i].length; j++) {
     if (
-      i === 0 ||
-      j === 0 ||
-      i === treesMatr.length - 1 ||
-      j === treesMatr[i].length - 1
+      i === 0
+      || j === 0
+      || i === treesMatr.length - 1
+      || j === treesMatr[i].length - 1
     ) {
       visibilities[i][j] = 1;
       continue;
@@ -89,6 +84,6 @@ console.log(visibilities);
 
 const visibleTrees = visibilities.reduce(
   (pr, cur) => pr + cur.reduce((pr, cur) => pr + cur, 0),
-  0
+  0,
 );
 console.log(visibleTrees);

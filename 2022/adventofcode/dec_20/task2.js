@@ -1,14 +1,9 @@
-/*
-*
+const fs = require('fs');
 
-* * */
+const contents = fs.readFileSync('input.txt', 'utf8');
+const lines = contents.split('\n');
 
-const fs = require("fs");
-
-const contents = fs.readFileSync("input.txt", "utf8");
-const lines = contents.split("\n");
-
-console.log("TOTAL ", lines.length);
+console.log('TOTAL ', lines.length);
 
 const mul = 811589153;
 const numsCopy = lines.map((num) => +num * mul);
@@ -25,16 +20,16 @@ for (let j = 0; j < 10; j++) {
 
     let adding = 0;
     if (iSwapped + num < 0) {
-      adding +=
-        (nums.length - 1) *
-        Math.abs(Math.floor((iSwapped + num) / (nums.length - 1)));
+      adding
+        += (nums.length - 1)
+        * Math.abs(Math.floor((iSwapped + num) / (nums.length - 1)));
       while (adding + (iSwapped + num) < 0) {
         adding += nums.length - 1;
       }
     }
     if (iSwapped + num > nums.length - 1) {
-      adding -=
-        (nums.length - 1) * Math.floor((iSwapped + num) / (nums.length - 1));
+      adding
+        -= (nums.length - 1) * Math.floor((iSwapped + num) / (nums.length - 1));
       while (adding + (iSwapped + num) > nums.length - 1) {
         adding -= nums.length - 1;
       }
@@ -50,7 +45,7 @@ for (let j = 0; j < 10; j++) {
     // console.log(nums.map((n) => n.val).join(" "));
   }
 }
-console.log(nums.join(" "));
+console.log(nums.join(' '));
 
 const i = nums.findIndex((v) => v.val === 0);
 

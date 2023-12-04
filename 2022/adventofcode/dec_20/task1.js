@@ -1,14 +1,9 @@
-/*
-*
+const fs = require('fs');
 
-* * */
+const contents = fs.readFileSync('input.txt', 'utf8');
+const lines = contents.split('\n');
 
-const fs = require("fs");
-
-const contents = fs.readFileSync("input.txt", "utf8");
-const lines = contents.split("\n");
-
-console.log("TOTAL ", lines.length);
+console.log('TOTAL ', lines.length);
 
 const numsCopy = lines.map(Number);
 const nums = lines.map((num, index) => ({ val: +num, index }));
@@ -42,7 +37,7 @@ for (let i = 0; i < numsCopy.length; i++) {
   // console.log(nums.map((n) => n.val).join(" "));
 }
 
-console.log(nums.join(" "));
+console.log(nums.join(' '));
 
 const i = nums.findIndex((v) => v.val === 0);
 
