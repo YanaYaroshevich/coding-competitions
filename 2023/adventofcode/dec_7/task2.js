@@ -23,7 +23,7 @@ const getCombinationStrength = (hand) => {
   }
 
   const jokersCount = handMap.J ?? 0;
-  if (jokersCount > 0) {
+  if (jokersCount > 0 && jokersCount < 5) {
     const keys = Object.keys(handMap);
     keys.sort((a, b) => handMap[b] - handMap[a]);
     const biggestKey = keys[0] === 'J' ? keys[1] : keys[0];
