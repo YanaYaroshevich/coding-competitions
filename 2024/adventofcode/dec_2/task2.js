@@ -11,9 +11,13 @@ const run = (levels, isRemoved) => {
                 if (isRemoved) {
                     return false;
                 }
-                if (!run(levels.slice(0, i).concat(levels.slice(i + 1)), true) && !run(levels.slice(0, i - 1).concat(levels.slice(i)), true)) {
-                    return false;
+                if (run(levels.slice(0, i).concat(levels.slice(i + 1)), true)) {
+                    return true;
                 }
+                if (run(levels.slice(0, i - 1).concat(levels.slice(i)), true)) {
+                    return true;
+                }
+                return false;
             }
         }
         if (!isIncreasing) {
@@ -21,9 +25,13 @@ const run = (levels, isRemoved) => {
                 if (isRemoved) {
                     return false;
                 }
-                if (!run(levels.slice(0, i).concat(levels.slice(i + 1)), true) && !run(levels.slice(0, i - 1).concat(levels.slice(i)), true)) {
-                    return false;
+                if (run(levels.slice(0, i).concat(levels.slice(i + 1)), true)) {
+                    return true;
                 }
+                if (run(levels.slice(0, i - 1).concat(levels.slice(i)), true)) {
+                    return true;
+                }
+                return false;
             }
         }
     }
