@@ -33,7 +33,7 @@ notValidUpdates.forEach((updates) => {
                 const temp = updates[j];
                 updates.splice(j, 1);
                 updates.splice(i, 0, temp);
-                i = 0;
+                i = -1;
                 break;
             }
         }
