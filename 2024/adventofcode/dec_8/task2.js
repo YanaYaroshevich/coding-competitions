@@ -45,24 +45,34 @@ for (const key of keys) {
             const diffI = i1 - i2;
             const diffJ = j1 - j2;
 
-            const i3 = diffI + i1;
-            const j3 = diffJ + j1;
+            let k = 0;
 
-            if (i3 >= 0 && i3 < lines.length && j3 >= 0 && j3 < lines[0].length) {
-                if (!hashCoords[i3]) {
-                    hashCoords[i3] = {};
+            while (true) {
+                let continueFlag = true;
+                const i3 = k * diffI + i1;
+                const j3 = k * diffJ + j1;
+
+                if (i3 >= 0 && i3 < lines.length && j3 >= 0 && j3 < lines[0].length) {
+                    if (!hashCoords[i3]) {
+                        hashCoords[i3] = {};
+                    }
+                    hashCoords[i3][j3] = true;
+                } else {
+                    continueFlag = false;
                 }
-                hashCoords[i3][j3] = true;
-            }
 
-            const i4 = -diffI + i2;
-            const j4 = -diffJ + j2;
+                const i4 = k * (-diffI) + i2;
+                const j4 = k * (-diffJ) + j2;
 
-            if (i4 >= 0 && i4 < lines.length && j4 >= 0 && j4 < lines[0].length) {
-                if (!hashCoords[i4]) {
-                    hashCoords[i4] = {};
+                if (i4 >= 0 && i4 < lines.length && j4 >= 0 && j4 < lines[0].length) {
+                    if (!hashCoords[i4]) {
+                        hashCoords[i4] = {};
+                    }
+                    hashCoords[i4][j4] = true;
+                } else if (!continueFlag) {
+                    break;
                 }
-                hashCoords[i4][j4] = true;
+                k++;
             }
         }
     }
