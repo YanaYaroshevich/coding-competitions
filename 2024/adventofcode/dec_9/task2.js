@@ -44,7 +44,7 @@ while (j >= 0) {
         const keys = Object.keys(spaceMap).sort((a, b) => a - b);
 
         for (const key of keys) {
-            if (spaceMap[key] >= fileLength) {
+            if (spaceMap[key] >= fileLength && +key <= j) {
                 for (let k = +key; k < +key + fileLength; k++) {
                     finalStr[k] = finalStr[lastJ];
                 }
