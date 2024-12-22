@@ -22,9 +22,14 @@ function createMap(arr) {
 const keys = createMap(keysArr);
 const arrows = createMap(arrowsArr);
 
+const memo = {};
+
 function findShortestPathLength(code, isKeys, robots) {
   if (robots === 0) {
     return code.length;
+  }
+  if (memo[code]?.[robots]) {
+    return memo[code][robots];
   }
   const map = isKeys ? keys : arrows;
   const arr = isKeys ? keysArr : arrowsArr;
@@ -62,6 +67,10 @@ function findShortestPathLength(code, isKeys, robots) {
     start = end;
   }
 
+  if (!memo[code]) {
+    memo[code] = {};
+  }
+  memo[code][robots] = pushes;
   return pushes;
 }
 
