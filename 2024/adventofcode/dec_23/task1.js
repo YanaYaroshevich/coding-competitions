@@ -15,7 +15,6 @@ for (const line of contents) {
 
 const nodes = Object.keys(adjacencyMap);
 
-// console.log(nodes.length);
 const adjacencyMatrix = new Array(nodes.length).fill([]).map(() => new Array(nodes.length).fill(0));
 
 for (const key in adjacencyMap) {
