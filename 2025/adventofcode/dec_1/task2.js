@@ -13,10 +13,16 @@ contents.forEach(((line) => {
 
   if (dir === 'L') {
     let res = start - num;
+
     while (res < 0) {
       count++;
       res += mod;
     }
+
+    if (start === 0) {
+      count--;
+    }
+
     start = res % mod;
     console.log(line, count);
   }
@@ -24,7 +30,16 @@ contents.forEach(((line) => {
   if (dir === 'R') {
     count += Math.floor((start + num) / mod);
     start = (start + num) % mod;
+
+    if (start === 0) {
+      count--;
+    }
     console.log(line, count);
+  }
+
+  if (start === 0) {
+    count++;
+    console.log('0 val', line, count);
   }
 }));
 
