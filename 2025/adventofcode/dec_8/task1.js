@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const boxes = fs.readFileSync('input.txt', 'utf8').split('\n').map((line) => line.split(',').map(BigInt));
+const boxes = fs.readFileSync('input.txt', 'utf8').split('\n').map((line) => line.split(',').map(Number));
 
 const distances = {};
 
@@ -10,19 +10,14 @@ for (let i = 0; i < boxes.length; i++) {
       continue;
     }
     const ind = `${i}-${j}`;
-    if (distances[ind] || distances[`${j}-${i}`]) {
+    if (distances[ind] !== undefined || distances[`${j}-${i}`] !== undefined) {
       continue;
     }
-    const paw = BigInt(2);
-    distances[ind] = (boxes[i][0] - boxes[j][0]) ** paw + (boxes[i][1] - boxes[j][1]) ** paw + (boxes[i][2] - boxes[j][2]) ** paw;
+    distances[ind] = (boxes[i][0] - boxes[j][0]) ** 2 + (boxes[i][1] - boxes[j][1]) ** 2 + (boxes[i][2] - boxes[j][2]) ** 2;
   }
 }
 
-const sorted = Object.entries(distances).sort((a, b) => {
-  if (a[1] > b[1]) return 1;
-  if (b[1] > a[1]) return -1;
-  return 0;
-});
+const sorted = Object.entries(distances).sort((a, b) => a[1] - b[1]);
 
 const connections = [sorted[0][0].split('-')];
 
@@ -31,21 +26,26 @@ console.log(connections);
 for (let i = 1; i < 1000; i++) {
   const [index1, index2] = sorted[i][0].split('-');
 
-  let isAdded = false;
-  for (let j = 0; j < connections.length; j++) {
-    if (connections[j].includes(index1)) {
-      connections[j].push(index2);
-      isAdded = true;
-      break;
-    }
-    if (connections[j].includes(index2)) {
-      connections[j].push(index1);
-      isAdded = true;
-      break;
-    }
+  let foundA = -1;
+  let foundB = -1;
+
+  for (let c = 0; c < connections.length; c++) {
+    if (connections[c].includes(index1)) foundA = c;
+    if (connections[c].includes(index2)) foundB = c;
   }
 
-  if (!isAdded) {
+  if (foundA !== -1 && foundB !== -1 && foundA === foundB) {
+    continue;
+  } else if (foundA !== -1 && foundB === -1) {
+    connections[foundA].push(index2);
+  } else if (foundA === -1 && foundB !== -1) {
+    connections[foundB].push(index1);
+  } else if (foundA !== -1 && foundB !== -1 && foundA !== foundB) {
+    const merged = [...connections[foundA], ...connections[foundB]];
+    connections.splice(foundB, 1);
+    connections.splice(foundA, 1);
+    connections.push(merged);
+  } else {
     connections.push([index1, index2]);
   }
 }
