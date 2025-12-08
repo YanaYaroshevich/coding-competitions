@@ -42,8 +42,14 @@ for (let i = 1; i < 1000; i++) {
     connections[foundB].push(index1);
   } else if (foundA !== -1 && foundB !== -1 && foundA !== foundB) {
     const merged = [...connections[foundA], ...connections[foundB]];
-    connections.splice(foundB, 1);
-    connections.splice(foundA, 1);
+    if (foundB > foundA) {
+      connections.splice(foundB, 1);
+      connections.splice(foundA, 1);
+    } else {
+      connections.splice(foundA, 1);
+      connections.splice(foundB, 1);
+    }
+
     connections.push(merged);
   } else {
     connections.push([index1, index2]);
